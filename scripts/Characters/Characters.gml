@@ -23,53 +23,55 @@ function Characters(_input) constructor {
 		max_speed_ = 3
 		grounded_ = false
 		hit_stun_ = false
-
 	}
 	
 	step_method = function(){
 		if(!place_meeting(x, y+1, o_solid)){
 			    vsp_ += grav_;
-			    image_speed = 0
-			    image_index = (vsp_ > 0)
-
 			    if(input_.up_released_ && vsp_ < -6){
 				 vsp_ = -jump_/2
 			    }
+				grounded_ = false
 			}else{ 
 			    vsp_ = 0
+				
 			    if(input_.up_){
 			       vsp_ = -jump_
 			    }
+				grounded_ = true
 			}
 
-		if state_ == player_state.idle || state_ == player_state.run {
+		if state_ == player_state.idle || state_ == player_state.run  || state_ == player_state.jump {
 			if(input_.right_ || input_.left_){
 			    hsp_ += (input_.right_ - input_.left_)*acc_
-			    var _hsp_dir = input_.right_ - input_.left_
-
+			
 			    if(hsp_ > max_speed_) hsp_ = max_speed_
 			    if(hsp_ < -max_speed_) hsp_ = -max_speed_ 
 			}else { 
 			    apply_friction(acc_)
 			}
 
-			if(hsp_ != 0){
-			    image_xscale = sign(hsp_)
+			if !grounded_ {
+				state_ = player_state.jump
+				image_speed = 0
+			    image_index = (vsp_ > 0)
+			}
+			else if (hsp_ != 0 && grounded_) {
+				image_xscale = sign(hsp_)
 				state_ = player_state.run
 				image_speed= 0.6
 			}else{
 				state_ = player_state.idle
 				image_speed = 1
 			}
-
-			if input_.action_one_pressed_ {
+			if input_.action_two_pressed_ {
 				state_ = player_state.attack
-				image_speed = .6
-			}else if input_.action_two_pressed_ {
+				image_speed = .2
+			}else if input_.action_one_pressed_ {
 				state_ = player_state.special
-				image_speed = .6
+				image_speed = .4
 			}
-		
+					
 		}
 
 			//Horizontal Collisions
@@ -98,8 +100,8 @@ function Characters(_input) constructor {
 function CyberGirl(_input) : Characters(_input) constructor {
 	sprite_[player_state.idle] =s_cyber_girl_idle
 	sprite_[player_state.run] = s_cyber_girl_run
-	sprite_[player_state.attack] = s_cody_attack
-	sprite_[player_state.special] = s_cody_special
+	sprite_[player_state.attack] = s_cyber_girl_run
+	sprite_[player_state.special] = s_cyber_girl_run
 	state_ = player_state.idle
 	sprite_index = sprite_[state_]
 }
