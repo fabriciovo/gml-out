@@ -12,6 +12,7 @@ function Characters(_input) constructor {
 			idle,
 			run,
 			jump,
+			fall,
 			attack,
 			special,
 		}
@@ -20,7 +21,7 @@ function Characters(_input) constructor {
 		hsp_ = 0; 
 		vsp_ = 0;
 		acc_ = 0.3
-		max_speed_ = 3
+		max_speed_ = 2
 		grounded_ = false
 		hit_stun_ = false
 	}
@@ -41,7 +42,7 @@ function Characters(_input) constructor {
 				grounded_ = true
 			}
 
-		if state_ == player_state.idle || state_ == player_state.run  || state_ == player_state.jump {
+		if state_ == player_state.idle || state_ == player_state.run  || state_ == player_state.jump || state_ == player_state.fall  {
 			if(input_.right_ || input_.left_){
 			    hsp_ += (input_.right_ - input_.left_)*acc_
 			
@@ -50,26 +51,35 @@ function Characters(_input) constructor {
 			}else { 
 			    apply_friction(acc_)
 			}
-
-			if !grounded_ {
-				state_ = player_state.jump
+			
+			
+			if !grounded_ && vsp_ > 0 {
 				image_speed = 0
-			    image_index = (vsp_ > 0)
+				state_ = player_state.fall
+
+			} else if !grounded_ && vsp_ < 0 {
+
+				image_speed = 0
+				state_ = player_state.jump
+
 			}
 			else if (hsp_ != 0 && grounded_) {
 				image_xscale = sign(hsp_)
 				state_ = player_state.run
 				image_speed= 0.6
-			}else{
+			}else {
 				state_ = player_state.idle
-				image_speed = 1
+				image_speed = 0
 			}
 			if input_.action_two_pressed_ {
 				state_ = player_state.attack
 				image_speed = .2
+				if !grounded_ apply_friction(acc_*5)
+			 
 			}else if input_.action_one_pressed_ {
 				state_ = player_state.special
 				image_speed = .4
+				if !grounded_ apply_friction(acc_*5)
 			}
 					
 		}
@@ -100,6 +110,7 @@ function Characters(_input) constructor {
 function CyberGirl(_input) : Characters(_input) constructor {
 	sprite_[player_state.idle] =s_cyber_girl_idle
 	sprite_[player_state.run] = s_cyber_girl_run
+	sprite_[player_state.fall] = s_cyber_girl_run
 	sprite_[player_state.attack] = s_cyber_girl_run
 	sprite_[player_state.special] = s_cyber_girl_run
 	state_ = player_state.idle
@@ -110,6 +121,7 @@ function Cody(_input) : Characters(_input) constructor {
 	sprite_[player_state.idle] = s_cody_idle
 	sprite_[player_state.run] = s_cody_run
 	sprite_[player_state.jump] = s_cody_jump
+	sprite_[player_state.fall] = s_cody_fall
 	sprite_[player_state.attack] = s_cody_attack
 	sprite_[player_state.special] = s_cody_special
 	state_ = player_state.idle
