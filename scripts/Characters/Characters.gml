@@ -1,11 +1,12 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function Characters(_input) constructor {
+
 	input_ = _input
 	state_ = player_state.idle
 	sprite_[player_state.idle] =s_cyber_girl_idle
 	sprite_[player_state.run] = s_cyber_girl_run
-	
+
 	sprite_index = sprite_[state_]
 	create_method = function(){		
 		enum player_state {
@@ -17,14 +18,18 @@ function Characters(_input) constructor {
 			special,
 			hit_stun
 		}
+
 		grav_ = 0.2;
 		jump_ = 5;
 		hsp_ = 0; 
 		vsp_ = 0;
 		acc_ = 0.3
+		dir_ = -1
 		max_speed_ = 2
 		grounded_ = false
 		hit_stun_ = false
+		hit_ = false
+		hit_power_ = 0
 	}
 	
 	step_method = function(){
@@ -33,6 +38,7 @@ function Characters(_input) constructor {
 			    if(input_.up_released_ && vsp_ < -6){
 				 vsp_ = -jump_/2
 			    }
+				
 				grounded_ = false
 			}else{ 
 			    vsp_ = 0
@@ -40,14 +46,26 @@ function Characters(_input) constructor {
 			    if(input_.up_){
 			       vsp_ = -jump_
 			    }
+
 				grounded_ = true
 			}
 
-		if hit_stun_ {
-			state_ = player_state.hit_stun
-			vsp_ -= 2
-		} 
-		if state_ == player_state.idle || state_ == player_state.run  || state_ == player_state.jump || state_ == player_state.fall  {
+		if state_ = player_state.hit_stun {
+			if hit_ {
+				hit_ = false
+				vsp_ -= hit_power_ * 0.1
+			}
+			if !grounded_ && hit_power_ > 4{
+				//image_angle += 23
+			}
+			if hsp_ != 0{
+				apply_friction(acc_ * hit_power_)
+			}
+			
+		} else  if state_ == player_state.idle 
+		|| state_ == player_state.run  
+		|| state_ == player_state.jump 
+		|| state_ == player_state.fall  {
 			if(input_.right_ || input_.left_){
 			    hsp_ += (input_.right_ - input_.left_)*acc_
 			
@@ -78,7 +96,8 @@ function Characters(_input) constructor {
 			}
 			if input_.action_two_pressed_ {
 				state_ = player_state.attack
-				instance_create_layer(x+25,y-16,"Instances",o_hitbox)
+				var _hitbox = instance_create_layer(x+25*image_xscale,y-16,"Instances",o_hitbox)
+				_hitbox.image_xscale = image_xscale
 				image_speed = .2
 			 
 			}else if input_.action_one_pressed_ {
@@ -103,18 +122,19 @@ function Characters(_input) constructor {
 			    vsp_ = 0
 			}
 	
-			
-
+			y+= vsp_
+			x+= hsp_
+			sprite_index = sprite_[state_]
 	}
-	sprite_index = sprite_[state_]
-	y+= vsp_
-	x+= hsp_
+
+
 }
 
 
 function CyberGirl(_input) : Characters(_input) constructor {
 	sprite_[player_state.idle] =s_cyber_girl_idle
 	sprite_[player_state.run] = s_cyber_girl_run
+	sprite_[player_state.jump] = s_cyber_girl_run
 	sprite_[player_state.fall] = s_cyber_girl_run
 	sprite_[player_state.attack] = s_cyber_girl_run
 	sprite_[player_state.special] = s_cyber_girl_run

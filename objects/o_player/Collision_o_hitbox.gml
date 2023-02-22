@@ -2,6 +2,9 @@
 // You can write your code in this editor
 if hit_stun_ exit
 hit_stun_ = true
-vsp_ = -30
-image_angle -= 33
-mask_index= -1
+state_ = player_state.hit_stun
+hit_power_++
+hsp_ = 0.1 * hit_power_ * other.image_xscale
+hit_ = true
+
+alarm[0] = 10
