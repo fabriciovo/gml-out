@@ -15,6 +15,7 @@ function Characters(_input) constructor {
 			fall,
 			attack,
 			special,
+			hit_stun
 		}
 		grav_ = 0.2;
 		jump_ = 5;
@@ -42,6 +43,10 @@ function Characters(_input) constructor {
 				grounded_ = true
 			}
 
+		if hit_stun_ {
+			state_ = player_state.hit_stun
+			vsp_ -= 2
+		} 
 		if state_ == player_state.idle || state_ == player_state.run  || state_ == player_state.jump || state_ == player_state.fall  {
 			if(input_.right_ || input_.left_){
 			    hsp_ += (input_.right_ - input_.left_)*acc_
@@ -73,17 +78,15 @@ function Characters(_input) constructor {
 			}
 			if input_.action_two_pressed_ {
 				state_ = player_state.attack
+				instance_create_layer(x+25,y-16,"Instances",o_hitbox)
 				image_speed = .2
-				if !grounded_ apply_friction(acc_*5)
 			 
 			}else if input_.action_one_pressed_ {
 				state_ = player_state.special
 				image_speed = .4
-				if !grounded_ apply_friction(acc_*5)
 			}
 					
 		}
-
 			//Horizontal Collisions
 			if (place_meeting(x+hsp_,y, o_solid)){
 			    while(!place_meeting(x+sign(hsp_),y,o_solid)){ 
@@ -100,10 +103,12 @@ function Characters(_input) constructor {
 			    vsp_ = 0
 			}
 	
-			sprite_index = sprite_[state_]
-			y+= vsp_
-			x+= hsp_
+			
+
 	}
+	sprite_index = sprite_[state_]
+	y+= vsp_
+	x+= hsp_
 }
 
 
@@ -113,6 +118,7 @@ function CyberGirl(_input) : Characters(_input) constructor {
 	sprite_[player_state.fall] = s_cyber_girl_run
 	sprite_[player_state.attack] = s_cyber_girl_run
 	sprite_[player_state.special] = s_cyber_girl_run
+	sprite_[player_state.hit_stun] = s_cyber_girl_idle
 	state_ = player_state.idle
 	sprite_index = sprite_[state_]
 }
@@ -124,6 +130,7 @@ function Cody(_input) : Characters(_input) constructor {
 	sprite_[player_state.fall] = s_cody_fall
 	sprite_[player_state.attack] = s_cody_attack
 	sprite_[player_state.special] = s_cody_special
+	sprite_[player_state.hit_stun] = s_cody_idle
 	state_ = player_state.idle
 	sprite_index = sprite_[state_]
 }
