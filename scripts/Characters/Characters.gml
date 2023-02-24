@@ -53,13 +53,14 @@ function Characters(_input) constructor {
 		if state_ = player_state.hit_stun {
 			if hit_ {
 				hit_ = false
-				vsp_ -= hit_power_ * 0.1
+				vsp_ = -hit_power_ 	
+				hsp_ = hit_power_
 			}
 			if !grounded_ && hit_power_ > 4{
 				//image_angle += 23
 			}
 			if hsp_ != 0{
-				apply_friction(acc_ * hit_power_)
+				apply_friction(acc_)
 			}
 			
 		} else  if state_ == player_state.idle 
