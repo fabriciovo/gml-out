@@ -23,7 +23,7 @@
     {"resourceType":"GMImageLayer","resourceVersion":"1.0","name":"5d07d0ac-d73b-449e-9fd1-dfdb23a1c812","blendMode":0,"displayName":"default","isLocked":false,"opacity":100.0,"visible":true,},
   ],
   "nineSlice": null,
-  "origin": 7,
+  "origin": 4,
   "parent": {
     "name": "Cyber Girl",
     "path": "folders/Sprites/Characters/Cyber Girl.yy",
@@ -60,7 +60,7 @@
     "visibleRange": null,
     "volume": 1.0,
     "xorigin": 7,
-    "yorigin": 24,
+    "yorigin": 12,
   },
   "swatchColours": null,
   "swfPrecision": 2.525,

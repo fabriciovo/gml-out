@@ -30,11 +30,16 @@ function Characters(_input) constructor {
 		hit_stun_ = false
 		hit_ = false
 		hit_power_ = 0
+		hit_dir_ = -1
 	}
 	
 	step_method = function(){
 		if(!place_meeting(x, y+1, o_solid)){
-			    vsp_ += grav_;
+			if hit_ {
+				vsp_ += grav_ * 2
+			}else{
+				vsp_ += grav_;
+			}
 			    if(input_.up_released_ && vsp_ < -6){
 				 vsp_ = -jump_/2
 			    }
@@ -50,30 +55,34 @@ function Characters(_input) constructor {
 				grounded_ = true
 			}
 
-		if state_ = player_state.hit_stun {
-			if hit_ {
-				hit_ = false
-				vsp_ = -hit_power_ 	
-				hsp_ = hit_power_
-			}
-			if !grounded_ && hit_power_ > 4{
-				//image_angle += 23
-			}
-			if hsp_ != 0{
+
+		if state_ == player_state.attack  {
+			if grounded_ {
 				apply_friction(acc_)
 			}
 			
+		}
+		else if state_ == player_state.hit_stun {
+			if hit_ {
+				hit_ = false
+				vsp_ = -hit_power_ 	
+				hsp_ = hit_power_ * hit_dir_
+			}
+			
+			if !grounded_ && hit_power_ > 4{
+				image_angle += 23
+			}			
+			
+			apply_friction(acc_)
+					
 		} else  if state_ == player_state.idle 
 		|| state_ == player_state.run  
 		|| state_ == player_state.jump 
-		|| state_ == player_state.fall  {
+		|| state_ == player_state.fall {
 			if(input_.right_ || input_.left_){
 			    hsp_ += (input_.right_ - input_.left_)*acc_
-			
-			    if(hsp_ > max_speed_) hsp_ = max_speed_
-			    if(hsp_ < -max_speed_) hsp_ = -max_speed_ 
-			}else { 
-			    apply_friction(acc_)
+			}else {
+				apply_friction(acc_)
 			}
 			
 			
@@ -122,10 +131,23 @@ function Characters(_input) constructor {
 			    }
 			    vsp_ = 0
 			}
-	
+			
+			if(hsp_ > max_speed_) hsp_ = max_speed_
+			if(hsp_ < -max_speed_) hsp_ = -max_speed_ 
+			
 			y+= vsp_
 			x+= hsp_
 			sprite_index = sprite_[state_]
+	}
+	
+	hitbox_collision_method = function(){
+		if hit_stun_ exit
+		hit_stun_ = true
+		state_ = player_state.hit_stun
+		hit_power_++
+		hit_dir_ = other.image_xscale
+		hit_ = true
+		alarm[0] = 20
 	}
 
 

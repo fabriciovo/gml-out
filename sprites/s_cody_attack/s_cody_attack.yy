@@ -24,7 +24,7 @@
     {"resourceType":"GMImageLayer","resourceVersion":"1.0","name":"4e68727c-2199-4a37-9790-8fc50c6537a8","blendMode":0,"displayName":"default","isLocked":false,"opacity":100.0,"visible":true,},
   ],
   "nineSlice": null,
-  "origin": 7,
+  "origin": 4,
   "parent": {
     "name": "Cody",
     "path": "folders/Sprites/Characters/Cody.yy",
@@ -62,7 +62,7 @@
     "visibleRange": null,
     "volume": 1.0,
     "xorigin": 12,
-    "yorigin": 21,
+    "yorigin": 10,
   },
   "swatchColours": null,
   "swfPrecision": 2.525,
