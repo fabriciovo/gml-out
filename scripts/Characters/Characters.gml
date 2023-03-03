@@ -31,6 +31,7 @@ function Characters(_input) constructor {
 		hit_ = false
 		hit_power_ = 0
 		hit_dir_ = -1
+		out_coll_i_ = 0 
 	}
 	
 	step_method = function(){
@@ -66,7 +67,7 @@ function Characters(_input) constructor {
 			if hit_ {
 				hit_ = false
 				vsp_ = -hit_power_ 	
-				hsp_ = hit_power_ * hit_dir_
+				hsp_ += hit_power_ * hit_dir_
 			}
 			
 			if !grounded_ && hit_power_ > 4{
