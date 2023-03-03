@@ -25,6 +25,7 @@
   "ResourceOrderSettings": [
     {"name":"tree_trunk3","order":9,"path":"sprites/tree_trunk3/tree_trunk3.yy",},
     {"name":"tree_trunk2","order":8,"path":"sprites/tree_trunk2/tree_trunk2.yy",},
+    {"name":"o_dash_effect","order":11,"path":"objects/o_dash_effect/o_dash_effect.yy",},
     {"name":"s_cyber_girl_attack","order":2,"path":"sprites/s_cyber_girl_attack/s_cyber_girl_attack.yy",},
     {"name":"hitbox","order":3,"path":"sprites/hitbox/hitbox.yy",},
     {"name":"o_selected_character","order":6,"path":"objects/o_selected_character/o_selected_character.yy",},

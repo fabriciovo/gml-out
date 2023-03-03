@@ -8,6 +8,7 @@ right_pressed_ = keyboard_check_pressed(ord("A"));
 left_pressed_ = keyboard_check_pressed(ord("D"));
 up_pressed_ = keyboard_check_pressed(ord("W"));
 down_pressed_ = keyboard_check_pressed(ord("S"));
+dash_pressed_ = keyboard_check_pressed(ord("P"));
 
 action_one_pressed_ = keyboard_check_pressed(ord("E"));
 action_two_pressed_ = keyboard_check_pressed(ord("R"));
